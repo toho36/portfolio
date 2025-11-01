@@ -15,6 +15,7 @@ This directory contains custom commands that appear when you type `/` in Cursor'
 - **`/code-review`** - Perform comprehensive code review
 - **`/refactor-code`** - Refactor code to improve quality and maintainability
 - **`/check-security`** - Review code for security vulnerabilities (image uploads, contact forms)
+- **`/check-seo`** - Review code for SEO best practices and Next.js optimization
 - **`/optimize-performance`** - Analyze and optimize code performance
 
 ### Portfolio Development

@@ -1,32 +1,29 @@
 import Link from 'next/link';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SOCIAL_LINKS, NAVIGATION_LINKS, SITE_NAME } from '@/lib/constants';
 
-interface SocialLink {
+interface SocialLinkWithIcon {
   name: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const socialLinks: SocialLink[] = [
-  {
-    name: 'GitHub',
-    href: 'https://github.com/toho36',
-    icon: Github,
-  },
-  {
-    name: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/hoangvietto/',
-    icon: Linkedin,
-  },
-  {
-    name: 'Email',
-    href: 'mailto:tohoangviet1998@gmail.com',
-    icon: Mail,
-  },
-];
+const SOCIAL_ICON_MAP: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  GitHub: Github,
+  LinkedIn: Linkedin,
+  Email: Mail,
+};
 
 const CURRENT_YEAR = new Date().getFullYear();
+
+const socialLinksWithIcons: SocialLinkWithIcon[] = SOCIAL_LINKS.map((link) => ({
+  ...link,
+  icon: SOCIAL_ICON_MAP[link.name] || Mail,
+}));
 
 export function Footer() {
   return (
@@ -39,11 +36,11 @@ export function Footer() {
           )}
         >
           <p className="text-sm text-muted-foreground">
-            © {CURRENT_YEAR} Portfolio. All rights reserved.
+            © {CURRENT_YEAR} {SITE_NAME}. All rights reserved.
           </p>
 
           <nav className="flex items-center gap-4" aria-label="Social links">
-            {socialLinks.map((link) => {
+            {socialLinksWithIcons.map((link) => {
               const Icon = link.icon;
               const isExternal = link.href.startsWith('http');
               return (
@@ -54,11 +51,12 @@ export function Footer() {
                   rel={isExternal ? 'noopener noreferrer' : undefined}
                   className={cn(
                     'text-muted-foreground transition-colors hover:text-foreground',
-                    'rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
+                    'rounded-sm p-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                    'md:p-2'
                   )}
                   aria-label={link.name}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-6 w-6 md:h-5 md:w-5" />
                   <span className="sr-only">{link.name}</span>
                 </Link>
               );
@@ -74,30 +72,15 @@ export function Footer() {
           )}
           aria-label="Footer navigation"
         >
-          <Link
-            href="#home"
-            className="transition-colors hover:text-foreground"
-          >
-            Home
-          </Link>
-          <Link
-            href="#about"
-            className="transition-colors hover:text-foreground"
-          >
-            About
-          </Link>
-          <Link
-            href="#projects"
-            className="transition-colors hover:text-foreground"
-          >
-            Projects
-          </Link>
-          <Link
-            href="#contact"
-            className="transition-colors hover:text-foreground"
-          >
-            Contact
-          </Link>
+          {NAVIGATION_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="transition-colors hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>

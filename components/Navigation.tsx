@@ -6,15 +6,12 @@ import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
-const navItems = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
-] as const;
-
-const HEADER_OFFSET = 80;
+import {
+  NAVIGATION_LINKS,
+  SITE_NAME,
+  HEADER_OFFSET,
+  SCROLL_THRESHOLD,
+} from '@/lib/constants';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,7 +23,7 @@ export function Navigation() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20);
+          setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
           ticking = false;
         });
         ticking = true;
@@ -75,11 +72,11 @@ export function Navigation() {
               'transition-colors hover:text-primary md:text-2xl'
             )}
           >
-            Portfolio
+            {SITE_NAME}
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">
-            {navItems.map((item) => (
+            {NAVIGATION_LINKS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -103,7 +100,7 @@ export function Navigation() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <nav className="mt-8 flex flex-col gap-6">
-                {navItems.map((item) => (
+                {NAVIGATION_LINKS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
