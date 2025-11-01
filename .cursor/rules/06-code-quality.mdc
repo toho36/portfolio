@@ -1,0 +1,106 @@
+---
+description: General code quality, SOLID principles, clean code, and architecture
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+alwaysApply: true
+---
+
+# Code Quality & Architecture
+
+## SOLID Principles
+
+- **Single Responsibility**: Each class/function should have one reason to change
+- **Open/Closed**: Open for extension, closed for modification
+- **Liskov Substitution**: Derived classes must be substitutable for base classes
+- **Interface Segregation**: Clients shouldn't depend on interfaces they don't use
+- **Dependency Inversion**: Depend on abstractions, not concretions
+
+## Clean Code Principles
+
+- Write clean, self-documenting code - code should read like prose
+- Keep functions small (ideally <20 lines, max 50 lines)
+- Keep classes/components focused (single responsibility)
+- Extract magic numbers and strings to named constants
+- Use descriptive variable and function names (avoid abbreviations)
+- Functions should do one thing and do it well
+- Prefer composition over inheritance
+- Write code that is easy to test
+
+## Error Handling
+
+- Always handle errors explicitly - never swallow exceptions silently
+- Use typed errors in TypeScript
+- Provide meaningful error messages for users
+- Log errors with sufficient context (request ID, user ID, timestamp)
+- Don't expose internal implementation details in user-facing errors
+- Use try-catch appropriately - not for control flow
+- Implement proper error boundaries in React
+- Use Result/Either patterns for error handling when appropriate
+
+## Naming Conventions
+
+- Use camelCase for variables and functions
+- Use PascalCase for components, classes, types, interfaces
+- Use UPPER_SNAKE_CASE for constants
+- Use descriptive names - avoid single letters (except for loops)
+- Use verb-noun for functions: `getUserById`, `calculateTotal`
+- Use nouns for variables: `userData`, `orderTotal`
+- Use boolean prefixes: `isVisible`, `hasPermission`, `shouldRender`
+
+## Code Organization
+
+- Organize by feature/module, not by file type
+- Keep related files close together
+- Use index files for clean imports
+- Separate concerns: components, hooks, utils, types, constants
+- Follow project conventions for naming and structure
+
+## Examples
+
+```typescript
+// Bad - long function doing multiple things
+function processOrder(order) {
+  // 50 lines of validation
+  // 30 lines of calculation
+  // 40 lines of notification
+}
+
+// Good - separated responsibilities
+function processOrder(order: Order) {
+  validateOrder(order);
+  const total = calculateOrderTotal(order);
+  sendOrderNotifications(order, total);
+}
+
+// Bad - magic numbers
+if (user.age > 18 && user.score < 60) {
+  // ...
+}
+
+// Good - named constants
+const MINIMUM_AGE = 18;
+const PASSING_SCORE = 60;
+
+if (user.age > MINIMUM_AGE && user.score < PASSING_SCORE) {
+  // ...
+}
+
+// Bad - unclear naming
+function calc(x, y) {
+  return x * y + 10;
+}
+
+// Good - descriptive naming
+function calculateOrderTotalWithTax(order: Order): number {
+  const TAX_RATE = 0.10;
+  return order.subtotal * (1 + TAX_RATE);
+}
+```
+
+## Code Reviews
+
+- Review your own code before requesting review
+- Look for: logic errors, edge cases, security issues, performance problems
+- Keep PRs focused and small (<400 lines when possible)
+- Document complex algorithms and business logic

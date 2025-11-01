@@ -1,0 +1,348 @@
+---
+description: Portfolio-specific patterns and best practices - sections, components, and structure
+globs:
+  - "components/**/*.tsx"
+  - "app/**/*.tsx"
+  - "sections/**/*.tsx"
+alwaysApply: false
+---
+
+# Portfolio Patterns & Best Practices
+
+## Portfolio Section Patterns
+
+### Hero Section
+- Display name, title/role, and brief bio
+- Include clear call-to-action buttons (View Projects, Contact)
+- Use compelling headline that summarizes your value
+- Add subtle animations (fade-in, slide-up)
+- Optimize hero image for LCP (Largest Contentful Paint)
+- Make it scannable (visitors spend < 3 seconds here)
+
+### About Section
+- Tell your story in 2-3 short paragraphs
+- Highlight key skills and technologies
+- Include personal interests/hobbies (shows personality)
+- Use skill badges/icons for visual appeal
+- Add timeline or experience if relevant
+- Make it authentic and personable
+
+### Projects Section
+- Showcase 3-6 best projects (quality over quantity)
+- Each project should have:
+  - Compelling title and description
+  - Technologies used (badges)
+  - Project image/screenshot
+  - Links (live site, GitHub, case study)
+  - Key features or achievements
+- Implement filtering by technology/tag
+- Use grid layout with responsive breakpoints
+- Add hover effects and animations
+
+### Contact Section
+- Simple, accessible contact form
+- Include social media links
+- Add email address (optional)
+- Show availability or response time
+- Keep it minimal - don't overwhelm
+
+## Project Card Component Pattern
+
+```tsx
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  longDescription?: string;
+  image: string;
+  technologies: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  featured: boolean;
+}
+
+interface ProjectCardProps {
+  project: Project;
+  onViewDetails?: (project: Project) => void;
+}
+
+export function ProjectCard({ project, onViewDetails }: ProjectCardProps) {
+  return (
+    <article className="project-card">
+      <div className="project-image-container">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+        <div className="project-overlay">
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+              View Live
+            </a>
+          )}
+        </div>
+      </div>
+      <div className="project-content">
+        <h3>{project.title}</h3>
+        <p>{project.description}</p>
+        <div className="project-tech">
+          {project.technologies.map((tech) => (
+            <span key={tech} className="tech-badge">
+              {tech}
+            </span>
+          ))}
+        </div>
+        <div className="project-links">
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+              Live Site →
+            </a>
+          )}
+          {project.githubUrl && (
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+              GitHub →
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+```
+
+## Image Gallery/Slider Patterns
+
+- Use lightbox/modal for project image galleries
+- Implement smooth transitions between images
+- Add keyboard navigation (arrow keys, ESC)
+- Include image captions or descriptions
+- Lazy load images in galleries
+- Use touch gestures for mobile (swipe)
+
+## Animation Guidelines
+
+### When to Animate
+- Page transitions (fade, slide)
+- Scroll-triggered reveals (projects, sections)
+- Hover effects (buttons, cards)
+- Loading states (contact form submission)
+- Micro-interactions (button clicks, form focus)
+
+### Animation Principles
+- Keep animations subtle (200-300ms duration)
+- Use easing functions (ease-in-out, cubic-bezier)
+- Respect `prefers-reduced-motion`
+- Animate on scroll using Intersection Observer
+- Test animations at 60fps
+
+### Intersection Observer Pattern
+
+```tsx
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+interface FadeInProps {
+  children: React.ReactNode;
+  delay?: number;
+}
+
+export function FadeIn({ children, delay = 0 }: FadeInProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), delay);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [delay]);
+
+  return (
+    <div
+      ref={ref}
+      className={`fade-in ${isVisible ? 'visible' : ''}`}
+      style={{
+        transition: `opacity 0.6s ease-out, transform 0.6s ease-out`,
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+```
+
+## SEO Best Practices for Portfolio
+
+### Metadata
+- Unique title and description for each page
+- Open Graph images for social sharing
+- Twitter card metadata
+- Structured data (JSON-LD) for projects
+
+### Content Structure
+- Use semantic HTML (header, nav, main, section, article, footer)
+- Proper heading hierarchy (one h1 per page, logical h2-h6)
+- Alt text for all images
+- Descriptive link text (not "click here")
+- Internal linking between sections
+
+### Technical SEO
+- Fast loading times (Core Web Vitals)
+- Mobile-responsive design
+- Accessible navigation
+- Clean URL structure
+- XML sitemap
+
+## Accessibility for Portfolio
+
+- Semantic HTML elements
+- ARIA labels where needed
+- Keyboard navigation support
+- Focus indicators visible
+- Color contrast (WCAG AA minimum)
+- Alt text for images
+- Form labels and error messages
+- Skip to main content link
+
+## Dark/Light Theme Patterns
+
+- Use CSS variables for colors
+- System preference detection (prefers-color-scheme)
+- Toggle button with smooth transition
+- Persist preference in localStorage
+- Respect user preference on first load
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export function ThemeToggle() {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+    setTheme(stored || systemPreference);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  return (
+    <button
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      aria-label="Toggle theme"
+    >
+      {theme === 'dark' ? '☀️' : '🌙'}
+    </button>
+  );
+}
+```
+
+## File Structure for Portfolio
+
+```
+app/
+├── layout.tsx              # Root layout with metadata
+├── page.tsx                # Home page (all sections)
+├── projects/
+│   ├── page.tsx           # Projects list
+│   └── [slug]/
+│       └── page.tsx       # Individual project page
+├── about/
+│   └── page.tsx           # About page
+└── contact/
+    └── page.tsx           # Contact page
+
+components/
+├── sections/
+│   ├── Hero.tsx
+│   ├── About.tsx
+│   ├── Projects.tsx
+│   └── Contact.tsx
+├── ui/
+│   ├── ProjectCard.tsx
+│   ├── SkillBadge.tsx
+│   ├── ThemeToggle.tsx
+│   └── Navigation.tsx
+├── animations/
+│   └── FadeIn.tsx
+└── forms/
+    └── ContactForm.tsx
+
+lib/
+├── projects.ts            # Hardcoded projects data
+├── constants.ts           # Site constants
+└── utils.ts              # Utility functions
+
+public/
+├── images/
+│   ├── projects/
+│   └── hero.jpg
+└── icons/
+```
+
+## Data Structure for Projects
+
+```typescript
+// lib/projects.ts
+export interface Project {
+  id: string;
+  title: string;
+  shortDescription: string;
+  longDescription: string;
+  image: string;
+  technologies: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  caseStudyUrl?: string;
+  featured: boolean;
+  category: 'web' | 'mobile' | 'fullstack';
+  year: number;
+}
+
+export const projects: Project[] = [
+  {
+    id: 'project-1',
+    title: 'E-Commerce Platform',
+    shortDescription: 'Full-stack e-commerce solution with payment integration',
+    longDescription: 'Built with Next.js, TypeScript, and Stripe...',
+    image: '/images/projects/ecommerce.jpg',
+    technologies: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/user/project',
+    featured: true,
+    category: 'fullstack',
+    year: 2024,
+  },
+  // ... more projects
+];
+```
+
+## Best Practices
+
+- Keep content fresh - update projects and skills regularly
+- Show personality - include hobbies and interests
+- Quality over quantity - showcase best work only
+- Make it scannable - visitors don't read everything
+- Clear call-to-action - what do you want visitors to do?
+- Mobile-first - most visitors will be on mobile
+- Fast loading - portfolio needs to be fast to make good impression

@@ -1,0 +1,274 @@
+---
+description: React 19 and Next.js 15 best practices for components and frontend development
+globs:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "app/**/*.tsx"
+  - "components/**/*.tsx"
+  - "pages/**/*.tsx"
+alwaysApply: false
+---
+
+# React & Frontend Development
+
+## React 19 Best Practices
+
+- Use React 19 features: Server Components, Actions, async transitions, useActionState, useOptimistic
+- Prefer Server Components by default, mark Client Components with 'use client' directive
+- Use Server Actions for mutations instead of API routes when possible
+- Implement proper error boundaries with error.tsx files
+- Use Suspense boundaries for async data loading with fallback UI
+- Leverage React.memo, useMemo, and useCallback only when profiling shows performance issues
+- Prefer composition over configuration for component design
+- Use custom hooks for reusable logic (prefixed with 'use')
+- Keep components small and focused (single responsibility)
+- Extract complex logic to custom hooks or utilities
+
+## Component Architecture
+
+- Follow atomic design principles: atoms → molecules → organisms → templates → pages
+- Use compound component patterns for complex UI elements
+- Implement proper prop types with TypeScript interfaces
+- Use forwardRef when components need ref access
+- Extract magic numbers and strings to constants/enums
+- Use descriptive, semantic HTML elements
+- Implement accessibility: ARIA labels, keyboard navigation, focus management
+
+## State Management
+
+- Use React state for component-local state
+- Use Server State libraries (React Query, SWR) for server data
+- Use Context API sparingly - only for truly global state (theme, auth)
+- Prefer URL state for shareable/filterable data
+- Use form libraries (React Hook Form) for complex forms
+- Avoid prop drilling beyond 2-3 levels - use Context or state management
+
+## Performance Optimization
+
+- Optimize images with Next.js Image component
+- Implement code splitting with dynamic imports
+- Use React.lazy() for route-based code splitting
+- Monitor Core Web Vitals: LCP, FID, CLS
+- Implement virtual scrolling for long lists
+- Debounce/throttle user input handlers
+- Use Web Workers for CPU-intensive tasks
+- Optimize re-renders with React DevTools Profiler
+
+## Next.js 15 App Router
+
+- Use App Router (not Pages Router) for new projects
+- Organize routes in app/ directory with route groups
+- Use route handlers for API endpoints
+- Implement proper metadata API for SEO
+- Use generateStaticParams for static generation
+- Implement ISR (Incremental Static Regeneration) for dynamic content
+- Use middleware for authentication, redirects, rewrites
+- Leverage parallel routes and intercepting routes when needed
+
+## Portfolio-Specific Patterns
+
+### Hero Section Patterns
+- Use Server Components for initial render, Client Components for interactions
+- Implement scroll-triggered animations with Intersection Observer
+- Use semantic HTML with proper heading hierarchy
+- Include clear call-to-action buttons
+- Optimize hero images with Next.js Image component
+- Implement smooth scroll to sections
+
+### Project Showcase Components
+- Create reusable project card components
+- Use grid layouts with responsive breakpoints
+- Implement filter/tag functionality with URL state
+- Add hover effects and transitions
+- Include project modals or detail pages
+- Show technologies used (badges/icons)
+
+### Animation Guidelines
+- Use CSS transitions for simple animations (hover, focus)
+- Use Framer Motion for most animations (scroll reveals, hover effects, page transitions)
+- Use GSAP for complex orchestrated timelines with multiple moving parts:
+  - Interactive showcase components with click-triggered sequences
+  - Multiple elements animating in parallel/sequence
+  - Complex timeline choreography requiring precise timing
+  - Use GSAP Timeline API for orchestrated sequences
+  - Always code split GSAP components with `next/dynamic` and `ssr: false`
+- Prefer reduced motion preferences (prefers-reduced-motion)
+- Animate on scroll with Intersection Observer
+- Keep animations subtle and purposeful (60fps target)
+- Lazy load animations below the fold, especially GSAP components
+
+### SEO Metadata Patterns
+- Use Next.js metadata API for page-level SEO
+- Include Open Graph images for social sharing
+- Add structured data (JSON-LD) for portfolio projects
+- Implement proper heading hierarchy (h1 → h2 → h3)
+- Use semantic HTML5 elements (header, nav, main, section, footer)
+- Add alt text to all images
+- Include meta descriptions for each page
+
+### Responsive Design Emphasis
+- Mobile-first approach (design for mobile, enhance for desktop)
+- Use CSS Grid and Flexbox for layouts
+- Implement responsive typography (clamp, fluid typography)
+- Test on multiple viewport sizes
+- Consider touch targets (minimum 44x44px)
+- Optimize images for different screen sizes
+
+### Portfolio File Structure
+```
+app/
+├── layout.tsx                 # Root layout with metadata
+├── page.tsx                   # Home/landing page
+├── projects/
+│   └── page.tsx              # Projects showcase
+├── about/
+│   └── page.tsx              # About section
+├── contact/
+│   └── page.tsx              # Contact form
+components/
+├── sections/
+│   ├── Hero.tsx              # Hero section
+│   ├── About.tsx             # About section
+│   ├── Projects.tsx          # Projects grid
+│   └── Contact.tsx           # Contact form
+├── ui/
+│   ├── ProjectCard.tsx      # Project card component
+│   ├── SkillBadge.tsx        # Technology badge
+│   ├── ThemeToggle.tsx       # Dark/light theme
+│   └── Navigation.tsx        # Site navigation
+└── animations/
+    └── FadeIn.tsx            # Reusable animations
+```
+
+## Component Examples
+
+```tsx
+// Portfolio Hero Section - Server Component
+interface HeroProps {
+  name: string;
+  title: string;
+  bio: string;
+}
+
+export function Hero({ name, title, bio }: HeroProps) {
+  return (
+    <section className="hero">
+      <h1 className="hero-title">{name}</h1>
+      <p className="hero-subtitle">{title}</p>
+      <p className="hero-bio">{bio}</p>
+      <nav className="hero-nav">
+        <a href="#projects" className="btn-primary">View Projects</a>
+        <a href="#contact" className="btn-secondary">Get in Touch</a>
+      </nav>
+    </section>
+  );
+}
+
+// Project Card - Client Component with animations
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  link: string;
+}
+
+export function ProjectCard({ 
+  title, 
+  description, 
+  image, 
+  technologies, 
+  link 
+}: ProjectCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <article 
+      className="project-card"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="project-image">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className={isHovered ? 'hovered' : ''}
+        />
+      </div>
+      <div className="project-content">
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <div className="project-tech">
+          {technologies.map((tech) => (
+            <span key={tech} className="tech-badge">{tech}</span>
+          ))}
+        </div>
+        <a href={link} className="project-link">View Project →</a>
+      </div>
+    </article>
+  );
+}
+
+// Animated Section with Intersection Observer
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+interface AnimatedSectionProps {
+  children: React.ReactNode;
+}
+
+export function AnimatedSection({ children }: AnimatedSectionProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className={`animated-section ${isVisible ? 'visible' : ''}`}
+    >
+      {children}
+    </section>
+  );
+}
+
+// SEO Metadata in Next.js App Router
+export const metadata = {
+  title: 'John Doe - Full Stack Developer',
+  description: 'Portfolio of a full stack developer specializing in React, Next.js, and Node.js',
+  openGraph: {
+    title: 'John Doe - Full Stack Developer',
+    description: 'Check out my portfolio and projects',
+    images: ['/og-image.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'John Doe - Full Stack Developer',
+    description: 'Portfolio showcase',
+  },
+};
+```

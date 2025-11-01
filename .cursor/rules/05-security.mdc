@@ -1,0 +1,150 @@
+---
+description: Security best practices for portfolio - image uploads, contact forms, and basic protection
+globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+alwaysApply: true
+---
+
+# Security Best Practices for Portfolio
+
+## Input Validation
+
+- Validate all user input on both client and server
+- Use validation libraries (Zod, Yup) with TypeScript
+- Implement field-level validation with clear error messages
+- Validate contact form fields (name, email, message)
+- Validate file uploads: type, size, content (critical for image uploads)
+
+## Image Upload Security
+
+- Validate MIME type (not just file extension): `image/jpeg`, `image/png`, `image/webp`
+- Limit file size (recommend max 5MB for portfolio images)
+- Generate unique filenames to prevent overwrites and conflicts
+- Sanitize original filename (remove special characters, path traversal attempts)
+- Store uploads in designated public directory, never above web root
+- Consider scanning images for malicious content (basic virus scanning if possible)
+- Use Next.js Image component which provides built-in security
+
+## Contact Form Security
+
+- Implement spam prevention:
+  - Honeypot field (hidden field that humans don't fill)
+  - Rate limiting (max 3 submissions per hour per IP)
+  - Basic CAPTCHA if high spam volume (hCaptcha or reCAPTCHA)
+- Validate email format properly (use Zod email validation)
+- Sanitize message content (escape HTML to prevent XSS)
+- Don't expose server errors to users
+- Use email service APIs (Resend, SendGrid) instead of SMTP credentials
+
+## Secrets Management
+
+- Never commit secrets, API keys, or credentials to version control
+- Use environment variables (`.env.local` for Next.js)
+- Store email service API keys in environment variables
+- Use different API keys for development and production
+- Don't log sensitive data (API keys, email addresses in logs)
+- Add `.env.local` to `.gitignore`
+
+## XSS Prevention
+
+- Sanitize all user-generated content before rendering
+- Use Content Security Policy (CSP) headers in Next.js
+- Escape output appropriately (React does this by default, but be careful with dangerouslySetInnerHTML)
+- Use framework-safe rendering methods (React's built-in escaping)
+
+## HTTPS & Headers
+
+- Deploy portfolio with HTTPS (required for production)
+- Configure security headers in Next.js (next.config.js):
+  - Content-Security-Policy
+  - X-Frame-Options
+  - X-Content-Type-Options
+- Use secure cookies if implementing any cookie-based features
+
+## Examples
+
+```typescript
+// Good - Contact form validation
+import { z } from 'zod';
+
+const contactSchema = z.object({
+  name: z.string().min(2).max(100),
+  email: z.string().email(),
+  message: z.string().min(10).max(1000),
+  honeypot: z.string().max(0).optional(), // Spam prevention
+});
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  
+  // Check honeypot
+  if (body.honeypot && body.honeypot.length > 0) {
+    return Response.json({ success: false, message: 'Spam detected' }, { status: 400 });
+  }
+  
+  const validation = contactSchema.safeParse(body);
+  if (!validation.success) {
+    return Response.json(
+      { success: false, errors: validation.error.flatten().fieldErrors },
+      { status: 422 }
+    );
+  }
+  
+  // Send email safely
+  // ... email sending logic
+}
+
+// Good - Image upload validation
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+export async function POST(request: Request) {
+  const formData = await request.formData();
+  const file = formData.get('image') as File;
+  
+  // Validate MIME type (not just extension)
+  if (!file || !ALLOWED_TYPES.includes(file.type)) {
+    return Response.json({ success: false, message: 'Invalid file type' }, { status: 400 });
+  }
+  
+  // Validate file size
+  if (file.size > MAX_FILE_SIZE) {
+    return Response.json({ success: false, message: 'File too large' }, { status: 400 });
+  }
+  
+  // Generate safe filename
+  const timestamp = Date.now();
+  const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+  const filename = `${timestamp}-${sanitizedName}`;
+  
+  // Save file safely
+  // ... file saving logic
+}
+
+// Good - Environment variables
+// .env.local (never commit)
+RESEND_API_KEY=re_xxxxx
+CONTACT_EMAIL=you@example.com
+
+// Bad - Hardcoded secrets
+const API_KEY = 're_abc123'; // NEVER DO THIS
+
+// Good - Using environment variables
+const API_KEY = process.env.RESEND_API_KEY;
+if (!API_KEY) {
+  throw new Error('RESEND_API_KEY is not set');
+}
+```
+
+## Security Checklist for Portfolio
+
+- [ ] All user input validated with Zod or similar
+- [ ] Image uploads validate MIME type and size
+- [ ] Contact form has spam prevention (honeypot/rate limiting)
+- [ ] Environment variables used for API keys
+- [ ] `.env.local` in `.gitignore`
+- [ ] HTTPS enabled in production
+- [ ] Security headers configured
+- [ ] No sensitive data in logs or error messages
