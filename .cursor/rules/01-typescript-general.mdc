@@ -76,3 +76,10 @@ function isUser(obj: unknown): obj is User {
   );
 }
 ```
+
+## Documentation
+
+- **No JSDoc comments** - TypeScript types and interfaces are self-documenting
+- Type definitions serve as documentation for functions and components
+- Keep code lean and self-explanatory with clear naming
+- Add inline comments only when explaining non-obvious "why" not "what"

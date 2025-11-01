@@ -103,4 +103,12 @@ function calculateOrderTotalWithTax(order: Order): number {
 - Review your own code before requesting review
 - Look for: logic errors, edge cases, security issues, performance problems
 - Keep PRs focused and small (<400 lines when possible)
-- Document complex algorithms and business logic
+- Document complex algorithms and business logic with inline comments when needed
+
+## Documentation Philosophy
+
+- **No JSDoc comments** - TypeScript types are self-documenting
+- Prefer self-documenting code with clear names and types
+- Add inline comments only for "why" not "what" - explain non-obvious business logic or decisions
+- TypeScript interfaces and types provide all necessary documentation for components
+- Keep code lean and simple - let the code speak for itself
