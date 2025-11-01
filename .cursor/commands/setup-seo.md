@@ -3,6 +3,7 @@
 Configure SEO metadata and structured data for portfolio site.
 
 ## What to do:
+
 1. Review current SEO setup:
    - Metadata in layout.tsx
    - Page-level metadata
@@ -29,10 +30,12 @@ Configure SEO metadata and structured data for portfolio site.
    - Clean URL structure
 
 Follow all rules in:
+
 - `.cursor/rules/02-react-components.mdc` (SEO patterns)
 - `.cursor/rules/09-portfolio-patterns.mdc` (SEO best practices)
 
 ## SEO Checklist:
+
 - [ ] Unique title and description for each page
 - [ ] Open Graph images configured
 - [ ] Twitter Card metadata
@@ -45,6 +48,7 @@ Follow all rules in:
 - [ ] robots.txt configured
 
 ## Example:
+
 ```tsx
 // app/layout.tsx
 export const metadata = {
@@ -57,5 +61,3 @@ export const metadata = {
   },
 };
 ```
-
-

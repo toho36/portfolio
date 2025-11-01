@@ -3,6 +3,7 @@
 Review code for security vulnerabilities and best practices.
 
 ## Security Review Areas:
+
 1. **Input Validation**
    - All user input validated and sanitized
    - File uploads validated (type, size)
@@ -34,4 +35,3 @@ Review code for security vulnerabilities and best practices.
    - Rate limiting implemented
 
 Provide specific security recommendations and code fixes when issues are found.
-

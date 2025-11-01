@@ -17,10 +17,12 @@ This directory contains project-specific rules for Cursor IDE, organized by cate
 ## How It Works
 
 Each `.mdc` file contains:
+
 - **Frontmatter** - Metadata about when rules apply (file patterns, always apply flag)
 - **Content** - The actual rules and guidelines
 
 Cursor automatically loads rules based on:
+
 - File patterns (`globs`) - Rules apply when working with matching files
 - `alwaysApply` flag - Rules always active regardless of file type
 
@@ -37,6 +39,7 @@ Cursor automatically loads rules based on:
 Rules are automatically applied by Cursor when you work on relevant files. No manual configuration needed!
 
 To add or modify rules:
+
 1. Edit the appropriate `.mdc` file
 2. Follow the frontmatter format for metadata
 3. Save - changes apply immediately
@@ -46,4 +49,3 @@ To add or modify rules:
 For truly global preferences (not file-specific), add them to Cursor's User Rules in Settings.
 
 See `.cursor/rules/USER_RULES_REFERENCE.md` for recommended global rules.
-

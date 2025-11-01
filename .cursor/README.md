@@ -30,6 +30,7 @@ This directory contains Cursor IDE configuration for the project, including rule
 ## Rules
 
 Rules in `.cursor/rules/` automatically guide Cursor's AI when you're coding. They apply based on:
+
 - **File patterns** (`globs`) - Rules activate for matching files
 - **Always apply** - Some rules apply to all files
 
@@ -59,4 +60,3 @@ See [`.cursor/commands/README.md`](commands/README.md) for available commands.
 ---
 
 **Tip:** Start with existing rules and commands, then customize for your team's needs!
-

@@ -3,6 +3,7 @@
 Generate a new React component following best practices and project rules.
 
 ## What to do:
+
 1. Ask user for component details:
    - Component name
    - Component type (Server Component, Client Component, or both)
@@ -29,4 +30,3 @@ Generate a new React component following best practices and project rules.
    - Type definition file
 
 Make sure the component follows all rules in `.cursor/rules/02-react-components.mdc`.
-

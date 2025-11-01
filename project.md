@@ -113,28 +113,24 @@ portfolio/
 ### Phase 4: Main Sections (Framer Motion)
 
 1. **Hero Section** (`components/sections/Hero.tsx`)
-
    - Server Component for initial render
    - Framer Motion fade-in animation
    - CTA buttons with hover effects
    - Optimized hero image
 
 2. **About Section** (`components/sections/About.tsx`)
-
    - Bio/Introduction content
    - Skills showcase with badges
    - Social links
    - Scroll-triggered reveal (Framer Motion)
 
 3. **Projects Section** (`components/sections/Projects.tsx`)
-
    - Project grid with ProjectCard components
    - Filter/tag functionality (optional)
    - Hover effects (CSS transitions)
    - Scroll reveals (Framer Motion stagger)
 
 4. **Hobbies Section** (`components/sections/Hobbies.tsx`)
-
    - Visual hobby showcase
    - Personal interests display
    - Subtle animations
@@ -160,6 +156,7 @@ portfolio/
 4. Click handler to trigger animation sequence
 5. Reset functionality for replay
 6. Lazy load via dynamic import in `app/page.tsx`:
+
    ```tsx
    const InteractiveShowcase = dynamic(
      () => import('@/components/sections/InteractiveShowcase'),
@@ -183,19 +180,19 @@ export function InteractiveShowcase() {
 
   const handleClick = () => {
     if (isAnimating) return;
-    
+
     setIsAnimating(true);
     const tl = gsap.timeline({
-      onComplete: () => setIsAnimating(false)
+      onComplete: () => setIsAnimating(false),
     });
-    
+
     // Orchestrated animation sequence
     tl.to('.part-1', { x: 100, rotation: 360, duration: 1, ease: 'power2.out' })
       .to('.part-2', { y: -50, scale: 1.2, duration: 0.8 }, '-=0.5')
       .to('.part-3', { opacity: 1, x: 0, duration: 0.6 }, '-=0.4')
       // ... more orchestrated parts
       .to('.final', { scale: 1, duration: 0.5 }, '-=0.3');
-    
+
     tlRef.current = tl;
   };
 
@@ -221,7 +218,6 @@ export function InteractiveShowcase() {
 2. Implement sitemap generation
 3. Set up robots.txt
 4. Optimize Core Web Vitals:
-
    - Lazy load InteractiveShowcase (GSAP)
    - Code split heavy animations
    - Optimize images (WebP/AVIF)
@@ -262,19 +258,16 @@ export function InteractiveShowcase() {
 ## Performance Considerations
 
 1. **Code Split GSAP Component**:
-
    - Use dynamic import with `ssr: false`
    - Load on user interaction or scroll into view
    - Estimated bundle impact: ~40-50KB (GSAP is heavy)
 
 2. **Bundle Optimization**:
-
    - Tree-shake unused GSAP plugins
    - Use `gsap/Core` instead of full GSAP if possible
    - Consider `gsap/ScrollTrigger` only if needed elsewhere
 
 3. **Animation Performance**:
-
    - Use `will-change` sparingly
    - Animate `transform` and `opacity` (GPU-accelerated)
    - Avoid animating `width`, `height`, `top`, `left`
@@ -297,6 +290,7 @@ export function InteractiveShowcase() {
 ✅ **Image Handling**: Next.js Image optimization
 
 **Animation Rules Status**: ✅ Complete
+
 - `.cursor/rules/02-react-components.mdc` includes GSAP for complex animations with detailed patterns
 - `.cursor/rules/08-performance.mdc` includes GSAP code splitting strategy with code examples
 - `.cursor/commands/add-animations.md` includes GSAP Interactive Showcase patterns and examples

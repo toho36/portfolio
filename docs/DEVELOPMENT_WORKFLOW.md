@@ -36,16 +36,19 @@ git push
 ### Use Cursor Commands (`/command-name`) When:
 
 ✅ **Creating new components or sections**
+
 - `/create-component` - New reusable component
 - `/create-portfolio-section` - Hero, About, Projects, Contact sections
 - `/create-project-card` - Project showcase cards
 
 ✅ **Code quality checks**
+
 - `/code-review` - Review code before committing
 - `/check-security` - Security audit
 - `/optimize-performance` - Performance analysis
 
 ✅ **Specific tasks with established patterns**
+
 - `/create-contact-form` - Contact form with validation
 - `/add-animations` - Add animations following guidelines
 - `/optimize-images` - Image optimization
@@ -54,15 +57,18 @@ git push
 ### Use Regular Prompts When:
 
 ✅ **Custom implementations**
+
 - "Add a dark mode toggle to the navigation"
 - "Create a custom hook for form validation"
 - "Implement a filter system for projects"
 
 ✅ **Bug fixes and debugging**
+
 - "Fix the TypeScript error in Hero.tsx"
 - "Debug why animations aren't working"
 
 ✅ **General questions**
+
 - "Explain how Server Components work"
 - "What's the best way to handle images?"
 
@@ -235,6 +241,7 @@ pnpm fix
 ```
 
 This runs:
+
 - TypeScript fixes (if possible)
 - ESLint auto-fix
 - Prettier formatting
@@ -246,6 +253,7 @@ pnpm check
 ```
 
 This verifies:
+
 - TypeScript compiles
 - ESLint passes
 - Prettier formatting is correct
@@ -285,36 +293,36 @@ pnpm fix && pnpm check && echo "✅ Ready to commit!"
 
 ### Development Commands
 
-| Command | When to Use | Example |
-|---------|-------------|---------|
-| `/create-component` | New reusable UI component | Button, Card, Modal |
-| `/create-portfolio-section` | Portfolio sections | Hero, About, Projects |
-| `/create-project-card` | Project showcase cards | Project display component |
-| `/create-contact-form` | Contact form with validation | Contact section |
+| Command                     | When to Use                  | Example                   |
+| --------------------------- | ---------------------------- | ------------------------- |
+| `/create-component`         | New reusable UI component    | Button, Card, Modal       |
+| `/create-portfolio-section` | Portfolio sections           | Hero, About, Projects     |
+| `/create-project-card`      | Project showcase cards       | Project display component |
+| `/create-contact-form`      | Contact form with validation | Contact section           |
 
 ### Code Quality Commands
 
-| Command | When to Use | Example |
-|---------|-------------|---------|
-| `/code-review` | Before committing | Review all changes |
-| `/check-security` | Security-sensitive code | Contact form, image upload |
-| `/refactor-code` | Improve code quality | Simplify complex logic |
-| `/optimize-performance` | Performance issues | Bundle size, loading times |
+| Command                 | When to Use             | Example                    |
+| ----------------------- | ----------------------- | -------------------------- |
+| `/code-review`          | Before committing       | Review all changes         |
+| `/check-security`       | Security-sensitive code | Contact form, image upload |
+| `/refactor-code`        | Improve code quality    | Simplify complex logic     |
+| `/optimize-performance` | Performance issues      | Bundle size, loading times |
 
 ### Optimization Commands
 
-| Command | When to Use | Example |
-|---------|-------------|---------|
-| `/optimize-images` | Adding new images | Project images, hero images |
-| `/add-animations` | Adding animations | Scroll reveals, hover effects |
-| `/setup-seo` | SEO configuration | Metadata, Open Graph |
+| Command            | When to Use       | Example                       |
+| ------------------ | ----------------- | ----------------------------- |
+| `/optimize-images` | Adding new images | Project images, hero images   |
+| `/add-animations`  | Adding animations | Scroll reveals, hover effects |
+| `/setup-seo`       | SEO configuration | Metadata, Open Graph          |
 
 ### Rule Management
 
-| Command | When to Use | Example |
-|---------|-------------|---------|
-| `/list-rules` | See active rules | Understanding what rules apply |
-| `/validate-rules` | Check rule files | After editing rules |
+| Command           | When to Use      | Example                        |
+| ----------------- | ---------------- | ------------------------------ |
+| `/list-rules`     | See active rules | Understanding what rules apply |
+| `/validate-rules` | Check rule files | After editing rules            |
 
 ---
 
@@ -353,6 +361,7 @@ pnpm type-check:fix   # Attempt TypeScript fixes (if supported)
 ### Issue: TypeScript errors won't fix
 
 **Solution:**
+
 ```bash
 # Check what the error is
 pnpm type-check
@@ -365,6 +374,7 @@ pnpm type-check
 
 **Solution:**
 Some ESLint errors need manual fixes:
+
 ```bash
 # See what errors remain
 pnpm lint
@@ -376,6 +386,7 @@ pnpm lint
 ### Issue: Prettier formatting keeps changing
 
 **Solution:**
+
 ```bash
 # Format all files once
 pnpm format
@@ -388,6 +399,7 @@ git commit -m "style: format code with Prettier"
 ### Issue: CI/CD checks failing
 
 **Solution:**
+
 ```bash
 # Run checks locally to see same errors
 pnpm check
@@ -401,6 +413,7 @@ pnpm fix
 ### Issue: Not sure which command to use
 
 **Solution:**
+
 - For standard components/sections → Use commands
 - For custom features → Use regular prompts
 - When in doubt → Use `/code-review` to check your work
@@ -446,4 +459,3 @@ pnpm fix && pnpm check → Ready!
 ---
 
 **Need Help?** Check project rules in `.cursor/rules/` or ask Cursor AI directly!
-

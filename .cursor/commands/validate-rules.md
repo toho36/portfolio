@@ -3,6 +3,7 @@
 Check all rule files in `.cursor/rules/` for proper format and structure.
 
 ## What to do:
+
 1. Check each `.mdc` file in `.cursor/rules/`
 2. Validate that each file has:
    - Proper frontmatter with `---` delimiters
@@ -16,4 +17,3 @@ Check all rule files in `.cursor/rules/` for proper format and structure.
    - Syntax errors
 
 Provide a summary of validation results and suggest fixes for any issues found.
-

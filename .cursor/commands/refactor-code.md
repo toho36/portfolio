@@ -3,6 +3,7 @@
 Refactor selected code to improve quality, maintainability, and adherence to best practices.
 
 ## Refactoring Checklist:
+
 1. **Code Structure**
    - Extract long functions into smaller ones
    - Break down large classes/components
@@ -36,4 +37,3 @@ Refactor selected code to improve quality, maintainability, and adherence to bes
    - Maintain or improve test coverage
 
 Provide refactored code with explanations of changes and why they improve the code quality.
-

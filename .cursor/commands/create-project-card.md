@@ -3,6 +3,7 @@
 Generate a reusable project card component for showcasing portfolio projects.
 
 ## What to do:
+
 1. Ask user for project card requirements:
    - Fields to display (title, description, image, technologies, links)
    - Layout style (horizontal, vertical, grid)
@@ -21,6 +22,7 @@ Generate a reusable project card component for showcasing portfolio projects.
    - Optional modal/detail view
 
 Follow all rules in:
+
 - `.cursor/rules/02-react-components.mdc`
 - `.cursor/rules/09-portfolio-patterns.mdc`
 - `.cursor/rules/10-image-handling.mdc`
@@ -41,5 +43,3 @@ interface ProjectCardProps {
   project: Project;
 }
 ```
-
-

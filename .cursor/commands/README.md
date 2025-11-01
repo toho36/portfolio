@@ -5,17 +5,20 @@ This directory contains custom commands that appear when you type `/` in Cursor'
 ## Available Commands (Portfolio-Optimized)
 
 ### Rule Management
+
 - **`/list-rules`** - Display all active Cursor rules and their descriptions
 - **`/validate-rules`** - Check all rule files for proper format and structure
 - **`/generate-rule`** - Create a new Cursor rule file
 
 ### Code Quality
+
 - **`/code-review`** - Perform comprehensive code review
 - **`/refactor-code`** - Refactor code to improve quality and maintainability
 - **`/check-security`** - Review code for security vulnerabilities (image uploads, contact forms)
 - **`/optimize-performance`** - Analyze and optimize code performance
 
 ### Portfolio Development
+
 - **`/create-component`** - Generate a new React component with best practices
 - **`/create-portfolio-section`** - Generate portfolio sections (Hero, About, Projects, Contact)
 - **`/create-project-card`** - Generate project showcase card component
@@ -25,6 +28,7 @@ This directory contains custom commands that appear when you type `/` in Cursor'
 - **`/setup-seo`** - Configure SEO metadata for portfolio
 
 ### Testing
+
 - **`/write-basic-tests`** - Generate basic tests for critical components and utilities
 
 ## How to Use
@@ -37,6 +41,7 @@ This directory contains custom commands that appear when you type `/` in Cursor'
 ## Command Format
 
 Each command is a Markdown file (`.md`) that contains:
+
 - **Title** - Command name shown in the list
 - **Instructions** - What Cursor should do when the command is executed
 
@@ -45,6 +50,7 @@ Commands guide Cursor's AI to perform specific tasks following your project's ru
 ## Adding Custom Commands
 
 To create a new command:
+
 1. Create a new `.md` file in this directory
 2. Name it descriptively (e.g., `deploy-staging.md`)
 3. Add a title and clear instructions
@@ -70,6 +76,7 @@ Cursor: [Generates React component following project rules]
 ## Integration with Rules
 
 These commands work alongside your rules in `.cursor/rules/`:
+
 - Commands can reference rules
 - Commands ensure generated code follows your rules
 - Rules provide the foundation, commands provide the workflow
@@ -77,4 +84,3 @@ These commands work alongside your rules in `.cursor/rules/`:
 ---
 
 **Note:** Commands are project-specific and version-controlled. Share with your team!
-

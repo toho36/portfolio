@@ -3,6 +3,7 @@
 Help create a new Cursor rule file in `.cursor/rules/` directory.
 
 ## What to do:
+
 1. Ask the user for:
    - Rule name/description (what the rule is about)
    - File patterns it should apply to (e.g., `**/*.tsx`, `api/**/*.ts`)
@@ -14,4 +15,3 @@ Help create a new Cursor rule file in `.cursor/rules/` directory.
 3. Save it in `.cursor/rules/` with format: `NN-description.mdc`
 
 The file should follow the same format as existing rule files with proper YAML frontmatter.
-

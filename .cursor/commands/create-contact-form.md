@@ -3,6 +3,7 @@
 Generate a contact form component and API endpoint for portfolio with validation and spam prevention.
 
 ## What to do:
+
 1. Ask user for form fields needed (name, email, message, optionally phone/subject)
 2. Create contact form component with:
    - React Hook Form for form handling
@@ -28,5 +29,3 @@ Follow all rules in `.cursor/rules/03-portfolio-api.mdc` and `.cursor/rules/05-s
 // components/forms/ContactForm.tsx - Client component
 // app/api/contact/route.ts OR app/actions/contact.ts - Server endpoint/action
 ```
-
-

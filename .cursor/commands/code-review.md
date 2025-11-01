@@ -3,6 +3,7 @@
 Perform a comprehensive code review of the selected code or current file.
 
 ## Review Checklist:
+
 1. **Code Quality**
    - Follows SOLID principles
    - Functions are small and focused
@@ -37,4 +38,3 @@ Perform a comprehensive code review of the selected code or current file.
    - Clear comments where needed
 
 Provide specific, actionable feedback with examples of improvements when possible.
-

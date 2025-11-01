@@ -3,6 +3,7 @@
 Analyze code for performance issues and suggest optimizations.
 
 ## Performance Analysis Areas:
+
 1. **Frontend Performance**
    - Bundle size optimization opportunities
    - Unnecessary re-renders
@@ -36,4 +37,3 @@ Analyze code for performance issues and suggest optimizations.
    - Batching opportunities
 
 Provide specific optimizations with code examples showing before/after improvements.
-

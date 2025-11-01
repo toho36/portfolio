@@ -59,4 +59,3 @@ jobs:
           echo "✅ All checks completed!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Note:** Vercel handles production builds automatically." >> $GITHUB_STEP_SUMMARY
-

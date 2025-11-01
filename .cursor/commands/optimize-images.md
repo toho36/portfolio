@@ -3,6 +3,7 @@
 Optimize images for portfolio - convert formats, resize, add blur placeholders, and implement proper loading strategies.
 
 ## What to do:
+
 1. Analyze current image usage in the codebase
 2. Identify images that need optimization:
    - Hero images (above fold - needs priority loading)
@@ -23,6 +24,7 @@ Optimize images for portfolio - convert formats, resize, add blur placeholders, 
 Follow all rules in `.cursor/rules/10-image-handling.mdc` and `.cursor/rules/08-performance.mdc`.
 
 ## Optimization Checklist:
+
 - [ ] Images use Next.js Image component
 - [ ] Hero images have `priority` prop
 - [ ] Responsive `sizes` attribute set correctly
@@ -31,5 +33,3 @@ Follow all rules in `.cursor/rules/10-image-handling.mdc` and `.cursor/rules/08-
 - [ ] Blur placeholders added where beneficial
 - [ ] Lazy loading for below-fold images
 - [ ] Alt text descriptive and meaningful
-
-

@@ -3,6 +3,7 @@
 Add smooth animations and transitions to portfolio components following performance best practices.
 
 ## What to do:
+
 1. Identify components that need animations:
    - Page sections (scroll-triggered reveals)
    - Project cards (hover effects)
@@ -23,6 +24,7 @@ Add smooth animations and transitions to portfolio components following performa
 5. Ensure animations enhance UX, don't distract
 
 Follow all rules in:
+
 - `.cursor/rules/02-react-components.mdc` (Animation guidelines)
 - `.cursor/rules/08-performance.mdc` (Animation performance)
 - `.cursor/rules/09-portfolio-patterns.mdc` (Animation patterns)
@@ -30,31 +32,37 @@ Follow all rules in:
 ## Animation Types:
 
 ### Scroll-Triggered
+
 - Fade in sections on scroll
 - Slide up animations
 - Stagger animations (projects grid)
 
 ### Hover Effects
+
 - Project card hover
 - Button hover states
 - Link underline animations
 
 ### Page Transitions
+
 - Smooth scroll to sections
 - Route transitions (if multi-page)
 
 ### Micro-interactions
+
 - Button clicks
 - Form focus states
 - Loading states
 
 ### Complex Orchestrated Animations
+
 - Use GSAP for interactive animations with multiple moving parts
 - Code split GSAP components (lazy load to minimize bundle size)
 - GSAP Timeline for sequential/parallel animation sequences
 - Examples: Interactive showcases, click-triggered multi-part animations
 
 ### GSAP Interactive Showcase Pattern
+
 ```tsx
 'use client';
 import { useRef, useState } from 'react';
@@ -67,17 +75,17 @@ export function InteractiveShowcase() {
 
   const handleClick = () => {
     if (isAnimating) return;
-    
+
     setIsAnimating(true);
     const tl = gsap.timeline({
-      onComplete: () => setIsAnimating(false)
+      onComplete: () => setIsAnimating(false),
     });
-    
+
     // Orchestrated animation sequence
     tl.to('.part-1', { x: 100, rotation: 360, duration: 1, ease: 'power2.out' })
       .to('.part-2', { y: -50, scale: 1.2, duration: 0.8 }, '-=0.5')
       .to('.part-3', { opacity: 1, x: 0, duration: 0.6 }, '-=0.4');
-    
+
     tlRef.current = tl;
   };
 
@@ -90,6 +98,7 @@ export function InteractiveShowcase() {
 ```
 
 Import in page with dynamic import:
+
 ```tsx
 import dynamic from 'next/dynamic';
 
@@ -100,9 +109,8 @@ const InteractiveShowcase = dynamic(
 ```
 
 ## Examples:
+
 - Intersection Observer for fade-in
 - CSS transitions for hover effects
 - Framer Motion for complex sequences
 - GSAP for orchestrated timelines with multiple elements
-
-

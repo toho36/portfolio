@@ -41,17 +41,20 @@ portfolio/
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd portfolio
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Run the development server:
+
    ```bash
    pnpm dev
    ```
@@ -61,11 +64,13 @@ portfolio/
 ## Available Scripts
 
 ### Development
+
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
 
 ### Code Quality
+
 - `pnpm check` - Run all checks (TypeScript + ESLint + Prettier)
 - `pnpm fix` - Auto-fix all issues (Prettier + ESLint)
 - `pnpm type-check` - TypeScript type checking
@@ -96,6 +101,7 @@ See `project.md` for detailed implementation plan.
 For a comprehensive guide on development workflow, when to use Cursor commands, code review process, and best practices, see **[docs/DEVELOPMENT_WORKFLOW.md](docs/DEVELOPMENT_WORKFLOW.md)**.
 
 Quick workflow:
+
 ```bash
 pnpm dev              # Start coding
 pnpm fix              # Auto-fix issues before committing
@@ -117,6 +123,7 @@ git commit && git push
 ## CI/CD
 
 This project includes GitHub Actions CI that runs on every push and pull request:
+
 - TypeScript type checking
 - ESLint code quality checks
 - Prettier formatting verification
@@ -141,5 +148,3 @@ To connect this repository to GitHub:
 ## License
 
 Private project - All rights reserved.
-
-
