@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface SocialLink {
@@ -21,7 +21,7 @@ const socialLinks: SocialLink[] = [
   },
   {
     name: 'Email',
-    href: 'tohoangviet1998@gmail.com',
+    href: 'mailto:tohoangviet1998@gmail.com',
     icon: Mail,
   },
 ];
@@ -33,25 +33,20 @@ export function Footer() {
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-6 md:px-8 py-12">
         <div className="flex flex-col items-center justify-center gap-6 md:flex-row md:justify-between">
-          {/* Copyright */}
           <p className="text-sm text-muted-foreground">
             © {currentYear} Portfolio. All rights reserved.
           </p>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
+          <nav className="flex items-center gap-4" aria-label="Social links">
             {socialLinks.map((link) => {
               const Icon = link.icon;
+              const isExternal = link.href.startsWith('http');
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={
-                    link.href.startsWith('http')
-                      ? 'noopener noreferrer'
-                      : undefined
-                  }
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
                   className={cn(
                     'text-muted-foreground hover:text-foreground transition-colors',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm'
@@ -63,11 +58,10 @@ export function Footer() {
                 </Link>
               );
             })}
-          </div>
+          </nav>
         </div>
 
-        {/* Optional: Additional Links */}
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 border-t border-border pt-8 text-sm text-muted-foreground md:flex-row md:gap-6">
+        <nav className="mt-8 flex flex-col items-center justify-center gap-4 border-t border-border pt-8 text-sm text-muted-foreground md:flex-row md:gap-6" aria-label="Footer navigation">
           <Link
             href="#home"
             className="hover:text-foreground transition-colors"
@@ -92,7 +86,7 @@ export function Footer() {
           >
             Contact
           </Link>
-        </div>
+        </nav>
       </div>
     </footer>
   );

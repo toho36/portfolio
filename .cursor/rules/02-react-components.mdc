@@ -33,6 +33,7 @@ alwaysApply: false
 - Extract magic numbers and strings to constants/enums
 - Use descriptive, semantic HTML elements
 - Implement accessibility: ARIA labels, keyboard navigation, focus management
+- **No JSDoc comments** - TypeScript types provide sufficient documentation
 
 ## State Management
 
