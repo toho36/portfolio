@@ -3,6 +3,14 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import {
+  SITE_NAME,
+  AUTHOR_NAME,
+  JOB_TITLE,
+  BASE_URL,
+  META_DESCRIPTION,
+  SOCIAL_LINKS,
+} from '@/lib/constants';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -11,30 +19,50 @@ const inter = Inter({
   preload: true,
 });
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: AUTHOR_NAME,
+  jobTitle: JOB_TITLE,
+  url: BASE_URL,
+  sameAs: SOCIAL_LINKS.map((link) => link.href),
+} as const;
+
 export const metadata: Metadata = {
   title: {
-    default: 'Portfolio',
-    template: '%s | Portfolio',
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    'Personal portfolio website showcasing projects, skills, and experience',
+  description: META_DESCRIPTION,
   keywords: ['portfolio', 'developer', 'web developer', 'software engineer'],
-  authors: [{ name: 'Portfolio Owner' }],
-  creator: 'Portfolio Owner',
+  authors: [{ name: AUTHOR_NAME }],
+  creator: AUTHOR_NAME,
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://portfolio.example.com',
-    title: 'Portfolio',
-    description:
-      'Personal portfolio website showcasing projects, skills, and experience',
-    siteName: 'Portfolio',
+    url: BASE_URL,
+    title: SITE_NAME,
+    description: META_DESCRIPTION,
+    siteName: SITE_NAME,
+    // TODO: Create OG image (1200×630px) and add to /public/og-image.jpg
+    // images: [
+    //   {
+    //     url: '/og-image.jpg',
+    //     width: 1200,
+    //     height: 630,
+    //     alt: `${SITE_NAME} - Personal portfolio website`,
+    //   },
+    // ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Portfolio',
-    description:
-      'Personal portfolio website showcasing projects, skills, and experience',
+    title: SITE_NAME,
+    description: META_DESCRIPTION,
+    // TODO: Create Twitter Card image (1200×630px) and add to /public/og-image.jpg
+    // images: ['/og-image.jpg'],
+  },
+  alternates: {
+    canonical: BASE_URL,
   },
   robots: {
     index: true,
@@ -57,6 +85,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className={`${inter.className} scrollbar-thin antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
         <Navigation />
         <main className="min-h-screen">{children}</main>
         <Footer />

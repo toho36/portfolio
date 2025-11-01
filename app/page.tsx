@@ -1,4 +1,5 @@
 import { Section } from '@/components/Section';
+import { SectionContent } from '@/components/SectionContent';
 
 export default function Home() {
   return (
@@ -18,37 +19,28 @@ export default function Home() {
       </Section>
 
       <Section id="about" variant="alt">
-        <div className="space-y-4">
-          <h2 className="mb-8 text-center">About</h2>
-          <div className="mx-auto max-w-3xl space-y-4">
-            <p className="text-muted-foreground">
-              This is a placeholder for the about section. Content will be added
-              in Phase 3.
-            </p>
-          </div>
-        </div>
+        <SectionContent title="About">
+          <p className="text-muted-foreground">
+            This is a placeholder for the about section. Content will be added
+            in Phase 3.
+          </p>
+        </SectionContent>
       </Section>
 
       <Section id="projects" variant="default">
-        <div className="space-y-4">
-          <h2 className="mb-8 text-center">Projects</h2>
-          <div className="mx-auto max-w-3xl">
-            <p className="text-center text-muted-foreground">
-              Projects will be showcased here. Content will be added in Phase 3.
-            </p>
-          </div>
-        </div>
+        <SectionContent title="Projects" centerContent>
+          <p className="text-muted-foreground">
+            Projects will be showcased here. Content will be added in Phase 3.
+          </p>
+        </SectionContent>
       </Section>
 
       <Section id="contact" variant="alt">
-        <div className="space-y-4">
-          <h2 className="mb-8 text-center">Contact</h2>
-          <div className="mx-auto max-w-3xl">
-            <p className="text-center text-muted-foreground">
-              Contact form and information will be added here in Phase 6.
-            </p>
-          </div>
-        </div>
+        <SectionContent title="Contact" centerContent>
+          <p className="text-muted-foreground">
+            Contact form and information will be added here in Phase 6.
+          </p>
+        </SectionContent>
       </Section>
     </>
   );

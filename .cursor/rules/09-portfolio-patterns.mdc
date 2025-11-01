@@ -204,7 +204,10 @@ export function FadeIn({ children, delay = 0 }: FadeInProps) {
 - Mobile-responsive design
 - Accessible navigation
 - Clean URL structure
-- XML sitemap
+- XML sitemap (create `app/sitemap.ts` in Next.js App Router)
+- robots.txt (create `app/robots.ts` in Next.js App Router)
+- Canonical URLs in metadata
+- HTTPS configuration (production)
 
 ## Accessibility for Portfolio
 

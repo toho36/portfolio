@@ -215,6 +215,48 @@ function BadContainer() {
 - Use semantic HTML5 elements (header, nav, main, section, footer)
 - Add alt text to all images
 - Include meta descriptions for each page
+- Add canonical URLs to prevent duplicate content
+
+### Structured Data Implementation (Next.js 15 App Router)
+In Next.js App Router, you cannot use `<head>` directly in RootLayout. Use script tags in the body:
+
+```tsx
+// ✅ Good - Structured data in app/layout.tsx
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Your Name',
+    jobTitle: 'Full Stack Developer',
+    url: 'https://yourdomain.com',
+    sameAs: [
+      'https://github.com/username',
+      'https://linkedin.com/in/username',
+    ],
+  };
+
+  return (
+    <html lang="en">
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+        {children}
+      </body>
+    </html>
+  );
+}
+
+// ❌ Bad - Trying to use <head> in App Router (not allowed)
+// <head> manipulation is not supported in Next.js App Router RootLayout
+```
 
 ### Responsive Design Emphasis
 - Mobile-first approach (design for mobile, enhance for desktop)
@@ -367,18 +409,37 @@ export function AnimatedSection({ children }: AnimatedSectionProps) {
 }
 
 // SEO Metadata in Next.js App Router
-export const metadata = {
-  title: 'John Doe - Full Stack Developer',
-  description: 'Portfolio of a full stack developer specializing in React, Next.js, and Node.js',
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'John Doe - Full Stack Developer',
+    template: '%s | John Doe',
+  },
+  description: 'Portfolio of a full stack developer specializing in React, Next.js, and Node.js. View my projects and get in touch.',
   openGraph: {
     title: 'John Doe - Full Stack Developer',
     description: 'Check out my portfolio and projects',
-    images: ['/og-image.jpg'],
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'John Doe Portfolio',
+      },
+    ],
+    url: 'https://yourdomain.com',
+    type: 'website',
+    siteName: 'John Doe Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'John Doe - Full Stack Developer',
     description: 'Portfolio showcase',
+    images: ['/og-image.jpg'],
+  },
+  alternates: {
+    canonical: 'https://yourdomain.com',
   },
 };
 ```
