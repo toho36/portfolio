@@ -33,8 +33,8 @@ Perform a comprehensive code review of the selected code or current file.
    - Tests are clear and maintainable
 
 6. **Documentation**
-   - Complex logic documented
-   - API endpoints documented (if applicable)
-   - Clear comments where needed
+   - Complex logic documented with inline comments when needed (explain "why" not "what")
+   - TypeScript types provide sufficient documentation
+   - **Do NOT recommend JSDoc** - prefer self-documenting code with clear types and names
 
 Provide specific, actionable feedback with examples of improvements when possible.

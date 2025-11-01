@@ -346,3 +346,32 @@ export const projects: Project[] = [
 - Clear call-to-action - what do you want visitors to do?
 - Mobile-first - most visitors will be on mobile
 - Fast loading - portfolio needs to be fast to make good impression
+
+## Styling Best Practices
+
+### ClassName Composition with `cn()`
+
+**Use `cn()` for:**
+- Conditional classes: `cn('base-class', isActive && 'active-class')`
+- Merging with props: `cn('base-class', className)` - allows className prop override
+- Long className strings split across lines (improves readability)
+- Resolving Tailwind conflicts: `cn('p-4', 'p-8')` automatically resolves conflicts
+
+**Not necessary for:**
+- Single, simple class strings with no conditions: `className="text-sm"` (direct use is fine)
+- Static classes that never change: Simple static strings don't need `cn()`
+
+**Best Practice**: Use `cn()` when you need its features (conditionals, merging, conflict resolution). For simple static strings, direct className is acceptable and cleaner.
+
+### Reusable Patterns
+- Use `container-custom` utility class for standard container layouts
+- Extract repeated styling patterns to:
+  - Custom utility classes in `globals.css` (`@layer utilities`)
+  - Reusable component abstractions (like `Section` component)
+- Avoid duplicating common patterns across components
+
+### Tailwind Utilities
+- Prefer Tailwind utility classes over custom CSS
+- Keep utilities in component files (colocation)
+- Only use separate CSS files for global styles and custom utilities
+- Modern approach: styles with components, not separate files

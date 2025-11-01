@@ -21,8 +21,8 @@ Generate a new React component following best practices and project rules.
    - Proper TypeScript interface for props
    - Server Component by default (add 'use client' if needed)
    - Proper error handling
-   - JSDoc comments
    - Export statement
+   - **Do NOT add JSDoc comments** - TypeScript types are self-documenting
 
 4. Create associated files if needed:
    - Test file (`.test.tsx`)
