@@ -76,7 +76,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className={`${inter.className} scrollbar-thin antialiased`} suppressHydrationWarning>
+      <body
+        className={`${inter.className} scrollbar-thin antialiased`}
+        suppressHydrationWarning
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

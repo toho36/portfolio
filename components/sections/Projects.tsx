@@ -88,7 +88,7 @@ export function Projects() {
               <Link
                 href={`/projects/${project.slug}`}
                 key={index}
-                className="project-card absolute w-full max-w-4xl overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl will-change-transform hover:border-primary/50 transition-colors"
+                className="project-card absolute w-full max-w-4xl overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl transition-colors will-change-transform hover:border-primary/50"
                 style={{
                   opacity: index === 0 ? 1 : 0,
                   zIndex: 100 - index,
