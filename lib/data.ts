@@ -29,29 +29,60 @@ export const SKILL_CATEGORIES = [
   },
 ];
 
-export const PROJECTS = [
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  longDescription?: string;
+  tech: string[];
+  role: string;
+  slug: string;
+  externalLink?: string;
+  cardImage?: string;
+  detailImages?: string[];
+  features?: string[];
+}
+
+export const PROJECTS: Project[] = [
   {
-    title: 'Property Management Platform',
+    title: 'Suburbs',
     description:
-      'Comprehensive administration platform for property management and mail processing.',
-    tech: ['NestJS', 'React 19', 'MSSQL', 'AWS'],
-    role: 'Full Stack Developer',
+      'A visually stunning landing page for a real estate development, featuring smooth GSAP animations and a modern, premium design.',
+    tech: ['Next.js', 'GSAP', 'Tailwind CSS', 'Framer Motion'],
+    role: 'Frontend Developer',
     id: '01',
+    slug: 'suburbs',
+    externalLink: 'https://suburbs.vercel.app/',
+    cardImage: '/images/suburbs.png',
+    detailImages: ['/images/suburbs.gif'],
+    features: [
+      'Advanced GSAP ScrollTrigger animations',
+      'Smooth parallax effects',
+      'Responsive modern layout',
+      'Interactive gallery elements',
+    ],
+    longDescription:
+      'Suburbs is a concept landing page designed to showcase luxury real estate. The project focuses on creating an immersive user experience through the use of advanced animations and transitions. Using GSAP and ScrollTrigger, elements gracefully enter the viewport, creating a sense of elegance and sophistication that matches the brand identity.',
   },
   {
-    title: 'Responsive Map Application',
+    title: 'GameOnVB',
     description:
-      'Interactive map interface with complex form integrations for city services.',
-    tech: ['React', '.NET', 'GIS'],
-    role: 'Frontend Developer',
+      'A comprehensive event management platform for volleyball tournaments, handling registration, teams, and administration.',
+    tech: ['Next.js', 'TRPC', 'Prisma', 'Tailwind CSS', 'TypeScript'],
+    role: 'Full Stack Developer',
     id: '02',
-  },
-  {
-    title: 'Job Portal Web App',
-    description: 'Responsive web application for job seekers and employers.',
-    tech: ['Next.js', 'MUI', 'React'],
-    role: 'Frontend Developer',
-    id: '03',
+    slug: 'gameonvb',
+    externalLink: 'https://gameonvb.cz/',
+    cardImage: '/images/landing.png',
+    detailImages: ['/images/landing.gif', '/images/admin.gif'],
+    features: [
+      'User authentication and team management',
+      'Registration system',
+      'Admin dashboard for event organization',
+      'Real-time updates and responsive design',
+    ],
+    longDescription:
+      'GameOnVB is a production-ready platform used for managing volleyball events. It solves the complex problem of organizing tournaments by providing a seamless experience for both players and organizers. Players can easily register teams and view tournament details, while admins have powerful tools to manage brackets, schedules, and participants.',
   },
 ];
 

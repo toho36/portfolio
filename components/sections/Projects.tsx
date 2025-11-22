@@ -1,11 +1,10 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
 import { PROJECTS } from '@/lib/data';
 
 export function Projects() {
@@ -13,9 +12,14 @@ export function Projects() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const SCROLL_HEIGHT_PER_CARD = 40;
+    const VISIBILITY_THRESHOLD = 2;
+
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray<HTMLElement>('.project-card');
-      const totalScroll = cards.length * 40; // Reduced to 40vh per card for faster scrolling
+      const totalScroll = cards.length * SCROLL_HEIGHT_PER_CARD;
 
       ScrollTrigger.create({
         trigger: sectionRef.current,
@@ -31,22 +35,20 @@ export function Projects() {
             const distance = i - progress;
             const absDistance = Math.abs(distance);
 
-            // Horizontal 3D Effect (Left to Right)
-            const xPercent = distance * 100; // Move fully horizontally
+            const xPercent = distance * 100;
             const scale = 1 - absDistance * 0.2;
             const opacity = 1 - absDistance * 0.5;
             const rotateY = distance * -45;
 
-            // Only animate visible cards
-            if (absDistance < 2) {
+            if (absDistance < VISIBILITY_THRESHOLD) {
               gsap.set(card, {
                 xPercent: xPercent,
                 scale: gsap.utils.clamp(0.8, 1, scale),
                 opacity: gsap.utils.clamp(0, 1, opacity),
                 rotateY: rotateY,
-                y: 0, // Reset vertical
-                rotateX: 0, // Reset vertical rotation
-                zIndex: 100 - Math.round(absDistance), // High internal z-index
+                y: 0,
+                rotateX: 0,
+                zIndex: 100 - Math.round(absDistance),
                 display: 'block',
                 transformOrigin: 'center center',
               });
@@ -79,46 +81,58 @@ export function Projects() {
           ref={containerRef}
           className="perspective-1000 relative flex h-[60vh] w-full max-w-5xl items-center justify-center"
         >
-          {PROJECTS.map((project, index) => (
-            <div
-              key={index}
-              className="project-card absolute w-full max-w-3xl overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl will-change-transform"
-              style={{
-                opacity: index === 0 ? 1 : 0,
-                zIndex: 100 - index,
-              }}
-            >
-              <div className="grid h-full min-h-[400px] md:grid-cols-2">
-                <div className="flex flex-col items-center justify-center border-r border-white/5 bg-secondary p-8 text-center">
-                  <div className="mb-4 text-8xl font-bold text-primary/20">
-                    {project.id}
-                  </div>
-                  <div className="rounded-full border border-primary/20 px-3 py-1 text-xs font-medium uppercase tracking-wider text-primary/80">
-                    {project.role}
-                  </div>
-                </div>
+          {PROJECTS.map((project, index) => {
+            const image = project.cardImage;
 
-                <div className="flex flex-col justify-center p-8">
-                  <h3 className="mb-4 text-2xl font-bold text-foreground">
-                    {project.title}
-                  </h3>
-                  <p className="mb-6 leading-relaxed text-muted-foreground">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-md bg-secondary/50 px-3 py-1.5 text-xs font-medium text-secondary-foreground"
-                      >
-                        {t}
-                      </span>
-                    ))}
+            return (
+              <Link
+                href={`/projects/${project.slug}`}
+                key={index}
+                className="project-card absolute w-full max-w-4xl overflow-hidden rounded-2xl border border-border/50 bg-card shadow-2xl will-change-transform hover:border-primary/50 transition-colors"
+                style={{
+                  opacity: index === 0 ? 1 : 0,
+                  zIndex: 100 - index,
+                }}
+              >
+                <div className="grid h-full min-h-[400px] md:grid-cols-2">
+                  <div className="relative h-full min-h-[200px] w-full overflow-hidden bg-secondary md:min-h-full">
+                    {image ? (
+                      <Image
+                        src={image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-8xl font-bold text-primary/20">
+                        {project.id}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col justify-center p-8">
+                    <h3 className="mb-4 text-2xl font-bold text-foreground">
+                      {project.title}
+                    </h3>
+                    <p className="mb-6 leading-relaxed text-muted-foreground">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md bg-secondary/50 px-3 py-1.5 text-xs font-medium text-secondary-foreground"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
     </>

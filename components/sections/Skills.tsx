@@ -13,7 +13,6 @@ export function Skills() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Staggered entrance for categories
       gsap.from('.skill-category', {
         y: 50,
         opacity: 0,
@@ -26,8 +25,7 @@ export function Skills() {
         },
       });
 
-      // Floating animation for individual skills
-      gsap.utils.toArray<HTMLElement>('.skill-item').forEach((item, i) => {
+      gsap.utils.toArray<HTMLElement>('.skill-item').forEach((item, _i) => {
         gsap.to(item, {
           y: -5,
           duration: 1.5 + Math.random(),

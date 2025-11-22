@@ -7,12 +7,27 @@ export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time or wait for resources
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // 2 seconds loading time
+    const MIN_LOADING_DURATION_MS = 1000;
+    const startTime = Date.now();
 
-    return () => clearTimeout(timer);
+    const handleLoad = () => {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, MIN_LOADING_DURATION_MS - elapsedTime);
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remainingTime);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+
+    return () => {
+      window.removeEventListener('load', handleLoad);
+    };
   }, []);
 
   return (

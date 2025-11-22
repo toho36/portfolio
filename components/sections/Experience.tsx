@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { cn } from '@/lib/utils';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +37,6 @@ export function Experience() {
       });
     }, sectionRef);
 
-    // Refresh ScrollTrigger to ensure positions are correct after pinning
     ScrollTrigger.refresh();
 
     return () => ctx.revert();
@@ -62,7 +61,6 @@ export function Experience() {
             }}
             className="relative pl-8 md:pl-12"
           >
-            {/* Timeline dot */}
             <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full border-4 border-background bg-primary" />
 
             <div className="mb-2 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">

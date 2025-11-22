@@ -24,7 +24,6 @@ export function Hero() {
       id="home"
       className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-background"
     >
-      {/* Unicorn Studio Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {mounted && (
           <div className="h-full w-full origin-center scale-[1.15]">
@@ -38,7 +37,6 @@ export function Hero() {
         <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
