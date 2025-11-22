@@ -74,7 +74,6 @@ export function Projects() {
           <h2 className="bg-gradient-to-r from-primary to-accent bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
             Featured Projects
           </h2>
-          <p className="mt-2 text-muted-foreground">Scroll to explore</p>
         </div>
 
         <div
