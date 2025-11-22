@@ -44,7 +44,7 @@ export function Hero() {
           transition={{ duration: 0.8 }}
         >
           <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-            Bc. Hoang Viet To
+            Hoang Viet To
             <span className="mt-4 block text-2xl font-normal text-primary md:text-3xl">
               FullStack Developer
             </span>

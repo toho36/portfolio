@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 import { SKILL_CATEGORIES } from '@/lib/data';
+import TechStack from '../TechStack';
 
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -44,33 +45,42 @@ export function Skills() {
     <section
       id="skills"
       ref={sectionRef}
-      className="mx-auto max-w-6xl px-4 py-20 md:px-8"
+      className="relative mx-auto min-h-screen w-full py-20"
     >
-      <h2 className="mb-12 bg-gradient-to-r from-primary to-accent bg-clip-text text-center text-3xl font-bold text-transparent md:text-4xl">
-        Technical Skills
-      </h2>
+      {/* Background Tech Stack */}
+      <div className="absolute inset-0 z-0 h-full w-full">
+        <div className="sticky top-1/2 flex -translate-y-1/2 items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-60 hover:grayscale-0">
+          <TechStack />
+        </div>
+      </div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {SKILL_CATEGORIES.map((category, idx) => (
-          <div
-            key={idx}
-            className="skill-category space-y-4 rounded-xl border border-white/5 bg-secondary/20 p-6 backdrop-blur-sm transition-colors hover:border-primary/30"
-          >
-            <h3 className="border-b border-border pb-2 text-xl font-bold text-primary">
-              {category.title}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {category.skills.map((skill) => (
-                <div
-                  key={skill}
-                  className="skill-item cursor-default rounded-md border border-white/5 bg-background/50 px-3 py-1.5 text-sm font-medium shadow-sm transition-all hover:scale-125 hover:bg-primary hover:text-primary-foreground"
-                >
-                  {skill}
-                </div>
-              ))}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 md:px-8">
+        <h2 className="mb-12 bg-gradient-to-r from-primary to-accent bg-clip-text text-center text-3xl font-bold text-transparent md:text-4xl">
+          Technical Skills
+        </h2>
+
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {SKILL_CATEGORIES.map((category, idx) => (
+            <div
+              key={idx}
+              className="skill-category space-y-4 rounded-xl border border-white/5 bg-secondary/20 p-6 backdrop-blur-sm transition-colors hover:border-primary/30"
+            >
+              <h3 className="border-b border-border pb-2 text-xl font-bold text-primary">
+                {category.title}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <div
+                    key={skill}
+                    className="skill-item cursor-default rounded-md border border-white/5 bg-background/50 px-3 py-1.5 text-sm font-medium shadow-sm transition-all hover:scale-125 hover:bg-primary hover:text-primary-foreground"
+                  >
+                    {skill}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
