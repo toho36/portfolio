@@ -4,6 +4,7 @@ import { Experience } from '@/components/sections/Experience';
 import { Education } from '@/components/sections/Education';
 import { About } from '@/components/sections/About';
 import { Projects } from '@/components/sections/Projects';
+import { Contact } from '@/components/sections/Contact';
 
 export default function Home() {
   return (
@@ -14,12 +15,7 @@ export default function Home() {
       <Projects />
       <Experience />
       <Education />
-
-      {/* Placeholder for Contact until Phase 6 */}
-      <section id="contact" className="bg-background py-20 text-center">
-        <h2 className="mb-4 text-3xl font-bold">Contact</h2>
-        <p className="text-muted-foreground">Contact form coming soon.</p>
-      </section>
+      <Contact />
     </main>
   );
 }

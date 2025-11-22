@@ -188,3 +188,13 @@ export const EDUCATION: EducationItem[] = [
     description: ['C++', 'HTML / CSS', 'SQL databases', 'Computer Hardware'],
   },
 ];
+
+export const CONTACT_CONTENT = {
+  title: 'Contact Me',
+  subtitle:
+    "Have a question or want to work together? I'd love to hear from you.",
+  buttonText: 'Send Message',
+  namePlaceholder: 'Your Name',
+  emailPlaceholder: 'your@email.com',
+  messagePlaceholder: 'Your Message',
+};
