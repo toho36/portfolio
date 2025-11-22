@@ -35,7 +35,6 @@ Reference `.cursor/rules/06-code-quality.mdc` and `.cursor/rules/01-typescript-g
 - [ ] **Performance**: `next/image`, `next/dynamic` used where appropriate.
 
 ### Styling
-
 - [ ] **Tailwind**: Classes colocated, `cn()` used for conditionals.
 
 ### SEO & Accessibility

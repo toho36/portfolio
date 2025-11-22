@@ -1,0 +1,74 @@
+# TypeScript & Type Safety
+
+## Core TypeScript Rules
+
+- Always use TypeScript with strict mode enabled (strict: true, noImplicitAny: true, strictNullChecks: true)
+- Never use `any` type - use `unknown`, `never`, or proper union/intersection types instead
+- Define explicit interfaces/types for all function parameters, return types, and component props
+- Use TypeScript 5.5+ features: const type parameters, infer improvements, type narrowing
+- Prefer `interface` for object shapes, `type` for unions/intersections/utilities
+- Use generic types with constraints for reusable components and functions
+- Always type async functions: Promise<ReturnType>
+- Use type inference when clear, but be explicit for public APIs
+- Enable ESLint rules: @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-function-return-type
+
+## Utility Types
+
+- Use TypeScript utility types appropriately:
+  - `Partial<T>` - make all properties optional
+  - `Pick<T, K>` - select specific properties
+  - `Omit<T, K>` - exclude specific properties
+  - `Record<K, V>` - object with key type K and value type V
+  - `Readonly<T>` - make all properties readonly
+  - `Required<T>` - make all properties required
+  - `Exclude<T, U>` - exclude types from union
+  - `Extract<T, U>` - extract types from union
+
+## Type Patterns
+
+```typescript
+// Good - explicit return type
+function getUserById(id: string): Promise<User | null> {
+  // ...
+}
+
+// Good - using generics with constraints
+function createRepository<T extends { id: string }>(): Repository<T> {
+  // ...
+}
+
+// Bad - using any
+function processData(data: any): any {
+  // ...
+}
+
+// Good - using unknown with type guards
+function processData(data: unknown): ProcessedData {
+  if (isValidData(data)) {
+    return transformData(data);
+  }
+  throw new Error('Invalid data');
+}
+```
+
+## Type Guards
+
+- Always use type guards for runtime type checking
+- Prefer discriminated unions for type narrowing
+- Use assertion functions for complex validation
+
+```typescript
+// Good - type guard
+function isUser(obj: unknown): obj is User {
+  return (
+    typeof obj === 'object' && obj !== null && 'id' in obj && 'email' in obj
+  );
+}
+```
+
+## Documentation
+
+- **No JSDoc comments** - TypeScript types and interfaces are self-documenting
+- Type definitions serve as documentation for functions and components
+- Keep code lean and self-explanatory with clear naming
+- Add inline comments only when explaining non-obvious "why" not "what"

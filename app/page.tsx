@@ -1,47 +1,25 @@
-import { Section } from '@/components/Section';
-import { SectionContent } from '@/components/SectionContent';
+import { Hero } from '@/components/sections/Hero';
+import { Skills } from '@/components/sections/Skills';
+import { Experience } from '@/components/sections/Experience';
+import { Education } from '@/components/sections/Education';
+import { About } from '@/components/sections/About';
+import { Projects } from '@/components/sections/Projects';
 
 export default function Home() {
   return (
-    <>
-      <Section
-        id="home"
-        variant="default"
-        className="pb-16 pt-32 md:pb-24 md:pt-40"
-      >
-        <div className="flex flex-col items-center justify-center space-y-6 text-center">
-          <h1 className="font-bold">Welcome to My Portfolio</h1>
-          <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
-            I&apos;m a developer passionate about creating beautiful, functional
-            web experiences.
-          </p>
-        </div>
-      </Section>
+    <main className="min-h-screen">
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Experience />
+      <Education />
 
-      <Section id="about" variant="alt">
-        <SectionContent title="About">
-          <p className="text-muted-foreground">
-            This is a placeholder for the about section. Content will be added
-            in Phase 3.
-          </p>
-        </SectionContent>
-      </Section>
-
-      <Section id="projects" variant="default">
-        <SectionContent title="Projects" centerContent>
-          <p className="text-muted-foreground">
-            Projects will be showcased here. Content will be added in Phase 3.
-          </p>
-        </SectionContent>
-      </Section>
-
-      <Section id="contact" variant="alt">
-        <SectionContent title="Contact" centerContent>
-          <p className="text-muted-foreground">
-            Contact form and information will be added here in Phase 6.
-          </p>
-        </SectionContent>
-      </Section>
-    </>
+      {/* Placeholder for Contact until Phase 6 */}
+      <section id="contact" className="bg-background py-20 text-center">
+        <h2 className="mb-4 text-3xl font-bold">Contact</h2>
+        <p className="text-muted-foreground">Contact form coming soon.</p>
+      </section>
+    </main>
   );
 }

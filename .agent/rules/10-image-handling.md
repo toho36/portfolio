@@ -1,0 +1,253 @@
+# Image Handling for Portfolio
+
+## Next.js Image Component (Primary Method)
+
+Always use Next.js `Image` component for images in portfolio:
+
+- Automatic image optimization
+- Responsive images with `srcset`
+- Lazy loading built-in
+- WebP/AVIF format conversion
+- Prevents layout shift with proper dimensions
+
+## Image Optimization Patterns
+
+### Hero Images (Above the Fold)
+
+- Use `priority` prop for immediate loading
+- Optimize for LCP (Largest Contentful Paint)
+- Use blur placeholder for better perceived performance
+- Set explicit width/height to prevent layout shift
+
+```tsx
+import Image from 'next/image';
+
+export function HeroImage() {
+  return (
+    <Image
+      src="/images/hero.jpg"
+      alt="Developer at work"
+      width={1920}
+      height={1080}
+      priority // Load immediately
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,..."
+      sizes="100vw"
+      quality={90} // High quality for hero
+    />
+  );
+}
+```
+
+### Project Images (Below the Fold)
+
+- Use lazy loading (default behavior)
+- Responsive sizes for different viewports
+- Optimize quality (75-85 is usually enough)
+
+```tsx
+export function ProjectImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={1200}
+      height={800}
+      loading="lazy" // Lazy load
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      quality={85}
+    />
+  );
+}
+```
+
+### Responsive Images with Sizes
+
+The `sizes` attribute tells the browser which image size to load:
+
+```tsx
+// Full width on mobile, half on tablet, third on desktop
+<Image
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  // ... other props
+/>
+
+// Examples:
+// Mobile (0-768px): 100vw (full width)
+// Tablet (768-1200px): 50vw (half width)
+// Desktop (1200px+): 33vw (one third)
+```
+
+## Image Upload Handling
+
+### Server-Side Image Processing
+
+When uploading project images:
+
+1. **Validate on server**
+   - MIME type validation (image/jpeg, image/png, image/webp)
+   - File size limit (5MB recommended)
+   - Image dimensions check
+
+2. **Optimize uploaded images**
+   - Resize to maximum dimensions (e.g., 1920px width)
+   - Compress with appropriate quality
+   - Convert to WebP format if possible
+
+3. **Generate multiple sizes**
+   - Thumbnail (300x300)
+   - Medium (800x600)
+   - Large (1920x1080)
+   - Store in organized directories
+
+### Upload Endpoint Example
+
+```typescript
+// app/api/upload/route.ts
+import { writeFile } from 'fs/promises';
+import { join } from 'path';
+import sharp from 'sharp'; // Image processing library
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+export async function POST(request: Request) {
+  const formData = await request.formData();
+  const file = formData.get('image') as File;
+
+  // Validation
+  if (!file || !ALLOWED_TYPES.includes(file.type)) {
+    return Response.json({ error: 'Invalid file type' }, { status: 400 });
+  }
+
+  if (file.size > MAX_FILE_SIZE) {
+    return Response.json({ error: 'File too large' }, { status: 400 });
+  }
+
+  // Process image
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const timestamp = Date.now();
+  const filename = `${timestamp}.webp`;
+
+  // Optimize and save
+  await sharp(buffer)
+    .resize(1920, 1080, { fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: 85 })
+    .toFile(join(process.cwd(), 'public', 'uploads', filename));
+
+  return Response.json({ url: `/uploads/${filename}` });
+}
+```
+
+## Image Formats
+
+### WebP (Recommended)
+
+- Better compression than JPEG/PNG
+- Supported by all modern browsers
+- Next.js automatically converts to WebP
+
+### AVIF (Future-Proof)
+
+- Even better compression than WebP
+- Newer format, browser support growing
+- Next.js supports AVIF conversion
+
+### Fallback Strategy
+
+```tsx
+// Next.js Image handles fallbacks automatically
+// Serves WebP to supporting browsers, JPEG to others
+<Image src="/image.jpg" /> // Next.js converts automatically
+```
+
+## Blur Placeholders
+
+### Generate Blur Data URL
+
+```typescript
+// Utility to generate blur placeholder
+import { getPlaiceholder } from 'plaiceholder';
+
+export async function getBlurDataURL(imagePath: string) {
+  const { base64 } = await getPlaiceholder(imagePath);
+  return base64;
+}
+```
+
+### Using Blur Placeholder
+
+```tsx
+<Image
+  src="/project.jpg"
+  alt="Project"
+  placeholder="blur"
+  blurDataURL="/blur-placeholder.jpg" // Small 10x10 image
+/>
+```
+
+## Image Gallery Patterns
+
+### Lightbox/Modal Gallery
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+
+interface ImageGalleryProps {
+  images: string[];
+}
+
+export function ImageGallery({ images }: ImageGalleryProps) {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  return (
+    <>
+      <div className="gallery-grid">
+        {images.map((src, index) => (
+          <button
+            key={src}
+            onClick={() => setSelectedIndex(index)}
+            className="gallery-item"
+          >
+            <Image
+              src={src}
+              alt={`Gallery image ${index + 1}`}
+              width={400}
+              height={300}
+              loading="lazy"
+            />
+          </button>
+        ))}
+      </div>
+
+      {selectedIndex !== null && (
+        <div className="lightbox" onClick={() => setSelectedIndex(null)}>
+          <Image
+            src={images[selectedIndex]}
+            alt={`Gallery image ${selectedIndex + 1}`}
+            width={1200}
+            height={800}
+            quality={90}
+          />
+        </div>
+      )}
+    </>
+  );
+}
+```
+
+## Best Practices Checklist
+
+- [ ] All images use Next.js Image component
+- [ ] Hero images have `priority` prop
+- [ ] Responsive `sizes` attribute set correctly
+- [ ] Images have descriptive alt text
+- [ ] WebP format used when possible
+- [ ] Images optimized before upload (or server-side)
+- [ ] Blur placeholders for better UX
+- [ ] Lazy loading for below-fold images
+- [ ] Proper width/height to prevent layout shift
+- [ ] Images stored in organized directory structure

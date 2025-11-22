@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import {
   SITE_NAME,
@@ -44,21 +43,14 @@ export const metadata: Metadata = {
     title: SITE_NAME,
     description: META_DESCRIPTION,
     siteName: SITE_NAME,
-    // TODO: Create OG image (1200×630px) and add to /public/og-image.jpg
-    // images: [
-    //   {
-    //     url: '/og-image.jpg',
-    //     width: 1200,
-    //     height: 630,
-    //     alt: `${SITE_NAME} - Personal portfolio website`,
-    //   },
-    // ],
+    // TODO: Add Open Graph image at /public/og-image.jpg (1200x630px)
+    // images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: SITE_NAME }],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_NAME,
     description: META_DESCRIPTION,
-    // TODO: Create Twitter Card image (1200×630px) and add to /public/og-image.jpg
+    // TODO: Add Twitter Card image at /public/og-image.jpg
     // images: ['/og-image.jpg'],
   },
   alternates: {
@@ -77,6 +69,10 @@ export const metadata: Metadata = {
   },
 };
 
+import { Navbar } from '@/components/ui/Navbar';
+import { SmoothScroll } from '@/components/ui/SmoothScroll';
+import { Preloader } from '@/components/ui/Preloader';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -91,9 +87,12 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData),
           }}
         />
-        <Navigation />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <Preloader />
+        <SmoothScroll>
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

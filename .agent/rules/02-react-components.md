@@ -1,0 +1,463 @@
+# React & Frontend Development
+
+## React 19 Best Practices
+
+- Use React 19 features: Server Components, Actions, async transitions, useActionState, useOptimistic
+- Prefer Server Components by default, mark Client Components with 'use client' directive
+- Use Server Actions for mutations instead of API routes when possible
+- Implement proper error boundaries with error.tsx files
+- Use Suspense boundaries for async data loading with fallback UI
+- Leverage React.memo, useMemo, and useCallback only when profiling shows performance issues
+- Prefer composition over configuration for component design
+- Use custom hooks for reusable logic (prefixed with 'use')
+- Keep components small and focused (single responsibility)
+- Extract complex logic to custom hooks or utilities
+
+## Component Architecture
+
+- Follow atomic design principles: atoms → molecules → organisms → templates → pages
+- Use compound component patterns for complex UI elements
+- Implement proper prop types with TypeScript interfaces
+- Use forwardRef when components need ref access
+- Extract magic numbers and strings to constants/enums
+- Use descriptive, semantic HTML elements
+- Implement accessibility: ARIA labels, keyboard navigation, focus management
+- **No JSDoc comments** - TypeScript types provide sufficient documentation
+
+## State Management
+
+- Use React state for component-local state
+- Use Server State libraries (React Query, SWR) for server data
+- Use Context API sparingly - only for truly global state (theme, auth)
+- Prefer URL state for shareable/filterable data
+- Use form libraries (React Hook Form) for complex forms
+- Avoid prop drilling beyond 2-3 levels - use Context or state management
+
+## Performance Optimization
+
+- Optimize images with Next.js Image component
+- Implement code splitting with dynamic imports
+- Use React.lazy() for route-based code splitting
+- Monitor Core Web Vitals: LCP, FID, CLS
+- Implement virtual scrolling for long lists
+- Debounce/throttle user input handlers
+- Use Web Workers for CPU-intensive tasks
+- Optimize re-renders with React DevTools Profiler
+
+## Styling Patterns with Tailwind CSS
+
+### ClassName Composition with `cn()`
+
+**When to use `cn()`:**
+
+- **Conditional classes**: `cn('base-class', isActive && 'active-class')`
+- **Merging with props**: `cn('base-class', className)` - allows className prop override
+- **Long className strings split across lines**: Improves readability
+- **Resolving Tailwind conflicts**: `cn('p-4', 'p-8')` → automatically resolves to `'p-8'`
+- **Multiple conditional classes**: Complex conditional logic
+
+**Not necessary for:**
+
+- **Single, simple class strings with no conditions**: `className="text-sm text-muted-foreground"` (no need for `cn()`)
+- **Static classes that never change**: Simple static strings can be used directly
+
+**Why `cn()`?**
+
+- Combines `clsx` (conditional class joining) and `tailwind-merge` (conflict resolution)
+- Automatically removes conflicting Tailwind classes (last one wins)
+- Enables flexible className composition for reusable components
+
+### Utility Classes
+
+- Use predefined utility classes from `globals.css` when available:
+  - `container-custom` for standard container pattern (`mx-auto max-w-7xl px-6 md:px-8`)
+  - Create custom utilities for repeated patterns using `@layer utilities` in `globals.css`
+- Avoid repeating common patterns - extract to utilities or components
+
+### Styling Organization (Colocation)
+
+- Keep Tailwind utility classes in component files (colocation) - this is the modern best practice
+- Use separate CSS files only for:
+  - Global/base styles (`globals.css`)
+  - Custom CSS utilities defined with `@layer utilities`
+  - Complex animations/keyframes not handled by JS animation libraries
+- Do NOT separate component-specific styles into external CSS files
+
+### Component-Level Styling
+
+- Component styles belong with the component (same file)
+- Tailwind utilities compile to optimized CSS at build time
+- Better maintainability - styles stay with their components
+- Follows modern React/Next.js best practices (2024 standards)
+
+### Examples
+
+```tsx
+import { cn } from '@/lib/utils';
+
+// Good - cn() for conditional classes
+function Button({
+  isActive,
+  className,
+}: {
+  isActive?: boolean;
+  className?: string;
+}) {
+  return (
+    <button
+      className={cn(
+        'base-button-classes',
+        isActive && 'bg-blue-500',
+        !isActive && 'bg-gray-500',
+        className // Allow prop override
+      )}
+    />
+  );
+}
+
+// Good - cn() for long strings (readability)
+function Footer() {
+  return (
+    <footer
+      className={cn(
+        'border-t border-border bg-background',
+        'mt-8 flex flex-col items-center justify-center gap-4',
+        'md:flex-row md:gap-6'
+      )}
+    >
+      <div className={cn('container-custom py-12')}>{/* content */}</div>
+    </footer>
+  );
+}
+
+// Good - Direct className for simple static strings
+function SimpleLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link href={href} className="transition-colors hover:text-foreground">
+      {children}
+    </Link>
+  );
+}
+
+// Bad - Using cn() unnecessarily for simple strings
+function OveruseExample() {
+  return <div className={cn('text-sm')}>Content</div>; // cn() not needed
+}
+
+// Bad - Direct strings for conditional logic
+function BadConditional({ isActive }: { isActive: boolean }) {
+  return (
+    <div className={`base-class ${isActive ? 'active' : ''}`}>
+      {/* Should use cn('base-class', isActive && 'active') */}
+    </div>
+  );
+}
+
+// Bad - Repeated container pattern instead of utility
+function BadContainer() {
+  return (
+    <div className="mx-auto max-w-7xl px-6 md:px-8">
+      {/* Should use container-custom */}
+    </div>
+  );
+}
+```
+
+## Next.js 15 App Router
+
+- Use App Router (not Pages Router) for new projects
+- Organize routes in app/ directory with route groups
+- Use route handlers for API endpoints
+- Implement proper metadata API for SEO
+- Use generateStaticParams for static generation
+- Implement ISR (Incremental Static Regeneration) for dynamic content
+- Use middleware for authentication, redirects, rewrites
+- Leverage parallel routes and intercepting routes when needed
+
+## Portfolio-Specific Patterns
+
+### Hero Section Patterns
+
+- Use Server Components for initial render, Client Components for interactions
+- Implement scroll-triggered animations with Intersection Observer
+- Use semantic HTML with proper heading hierarchy
+- Include clear call-to-action buttons
+- Optimize hero images with Next.js Image component
+- Implement smooth scroll to sections
+
+### Project Showcase Components
+
+- Create reusable project card components
+- Use grid layouts with responsive breakpoints
+- Implement filter/tag functionality with URL state
+- Add hover effects and transitions
+- Include project modals or detail pages
+- Show technologies used (badges/icons)
+
+### Animation Guidelines
+
+- Use CSS transitions for simple animations (hover, focus)
+- Use Framer Motion for most animations (scroll reveals, hover effects, page transitions)
+- Use GSAP for complex orchestrated timelines with multiple moving parts:
+  - Interactive showcase components with click-triggered sequences
+  - Multiple elements animating in parallel/sequence
+  - Complex timeline choreography requiring precise timing
+  - Use GSAP Timeline API for orchestrated sequences
+  - Always code split GSAP components with `next/dynamic` and `ssr: false`
+- Prefer reduced motion preferences (prefers-reduced-motion)
+- Animate on scroll with Intersection Observer
+- Keep animations subtle and purposeful (60fps target)
+- Lazy load animations below the fold, especially GSAP components
+
+### SEO Metadata Patterns
+
+- Use Next.js metadata API for page-level SEO
+- Include Open Graph images for social sharing
+- Add structured data (JSON-LD) for portfolio projects
+- Implement proper heading hierarchy (h1 → h2 → h3)
+- Use semantic HTML5 elements (header, nav, main, section, footer)
+- Add alt text to all images
+- Include meta descriptions for each page
+- Add canonical URLs to prevent duplicate content
+
+### Structured Data Implementation (Next.js 15 App Router)
+
+In Next.js App Router, you cannot use `<head>` directly in RootLayout. Use script tags in the body:
+
+```tsx
+// ✅ Good - Structured data in app/layout.tsx
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Your Name',
+    jobTitle: 'Full Stack Developer',
+    url: 'https://yourdomain.com',
+    sameAs: ['https://github.com/username', 'https://linkedin.com/in/username'],
+  };
+
+  return (
+    <html lang="en">
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+        {children}
+      </body>
+    </html>
+  );
+}
+
+// ❌ Bad - Trying to use <head> in App Router (not allowed)
+// <head> manipulation is not supported in Next.js App Router RootLayout
+```
+
+### Responsive Design Emphasis
+
+- Mobile-first approach (design for mobile, enhance for desktop)
+- Use CSS Grid and Flexbox for layouts
+- Implement responsive typography (clamp, fluid typography)
+- Test on multiple viewport sizes
+- Consider touch targets (minimum 44x44px)
+- Optimize images for different screen sizes
+
+### Portfolio File Structure
+
+```
+app/
+├── layout.tsx                 # Root layout with metadata
+├── page.tsx                   # Home/landing page
+├── projects/
+│   └── page.tsx              # Projects showcase
+├── about/
+│   └── page.tsx              # About section
+├── contact/
+│   └── page.tsx              # Contact form
+components/
+├── sections/
+│   ├── Hero.tsx              # Hero section
+│   ├── About.tsx             # About section
+│   ├── Projects.tsx          # Projects grid
+│   └── Contact.tsx           # Contact form
+├── ui/
+│   ├── ProjectCard.tsx      # Project card component
+│   ├── SkillBadge.tsx        # Technology badge
+│   ├── ThemeToggle.tsx       # Dark/light theme
+│   └── Navigation.tsx        # Site navigation
+└── animations/
+    └── FadeIn.tsx            # Reusable animations
+```
+
+## Component Examples
+
+```tsx
+// Portfolio Hero Section - Server Component
+interface HeroProps {
+  name: string;
+  title: string;
+  bio: string;
+}
+
+export function Hero({ name, title, bio }: HeroProps) {
+  return (
+    <section className="hero">
+      <h1 className="hero-title">{name}</h1>
+      <p className="hero-subtitle">{title}</p>
+      <p className="hero-bio">{bio}</p>
+      <nav className="hero-nav">
+        <a href="#projects" className="btn-primary">
+          View Projects
+        </a>
+        <a href="#contact" className="btn-secondary">
+          Get in Touch
+        </a>
+      </nav>
+    </section>
+  );
+}
+
+// Project Card - Client Component with animations
+('use client');
+
+import { useState } from 'react';
+import Image from 'next/image';
+
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  link: string;
+}
+
+export function ProjectCard({
+  title,
+  description,
+  image,
+  technologies,
+  link,
+}: ProjectCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <article
+      className="project-card"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="project-image">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className={isHovered ? 'hovered' : ''}
+        />
+      </div>
+      <div className="project-content">
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <div className="project-tech">
+          {technologies.map((tech) => (
+            <span key={tech} className="tech-badge">
+              {tech}
+            </span>
+          ))}
+        </div>
+        <a href={link} className="project-link">
+          View Project →
+        </a>
+      </div>
+    </article>
+  );
+}
+
+// Animated Section with Intersection Observer
+('use client');
+
+import { useEffect, useRef, useState } from 'react';
+
+interface AnimatedSectionProps {
+  children: React.ReactNode;
+}
+
+export function AnimatedSection({ children }: AnimatedSectionProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className={`animated-section ${isVisible ? 'visible' : ''}`}
+    >
+      {children}
+    </section>
+  );
+}
+
+// SEO Metadata in Next.js App Router
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'John Doe - Full Stack Developer',
+    template: '%s | John Doe',
+  },
+  description:
+    'Portfolio of a full stack developer specializing in React, Next.js, and Node.js. View my projects and get in touch.',
+  openGraph: {
+    title: 'John Doe - Full Stack Developer',
+    description: 'Check out my portfolio and projects',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'John Doe Portfolio',
+      },
+    ],
+    url: 'https://yourdomain.com',
+    type: 'website',
+    siteName: 'John Doe Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'John Doe - Full Stack Developer',
+    description: 'Portfolio showcase',
+    images: ['/og-image.jpg'],
+  },
+  alternates: {
+    canonical: 'https://yourdomain.com',
+  },
+};
+```
